@@ -1,0 +1,33 @@
+services:
+  mas:
+    image: ghcr.io/element-hq/matrix-authentication-service:latest
+    restart: unless-stopped
+    container_name: mas
+    ports:
+      - 8083:8080
+    volumes:
+      - ./mas:/data:rw
+    networks:
+      - matrix_net
+    # FIXME: do we also need to sync the db?
+    command: "server --config=/data/config.yaml"
+
+  masdb:
+    image: postgres:latest
+    container_name: mas_db
+    restart: always
+    environment:
+      - POSTGRES_DB=mas 
+      - POSTGRES_USER=synapse_user  
+      - POSTGRES_PASSWORD=your_password  
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --locale=C
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data  
+    ports:
+      - "5422:5432"  
+    networks:
+      - matrix_net
+
+networks:
+  matrix_net:
+    external: true
