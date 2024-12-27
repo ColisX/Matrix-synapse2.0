@@ -27,8 +27,8 @@ http:
   - 127.0.0.1/8
   - fd00::/8
   - ::1/128
-  public_base: https://auth.aosn.de
-  issuer: https://auth.aosn.de/
+  public_base: https://auth.example.com  #
+  issuer: https://auth.example.com/      #
 database:
   host: masdb
   database: mas
@@ -39,6 +39,7 @@ database:
   connect_timeout: 30
   idle_timeout: 600
   max_lifetime: 1800
+  
 email:
   from: '"Matrix Authentication Service" <matrix.aosn@gmail.com>'
   reply_to: '"Matrix Authentication Service" <matrix.aosn@gmail.com>'
@@ -46,8 +47,8 @@ email:
   mode: starttls  
   hostname: smtp.gmail.com
   port: 587
-  username: matrix.aosn@gmail.com
-  password: cqkrdkagdwavswho
+  username: matrix@auth.example.com
+  password: your_passwork
 secrets:
   encryption: 31c7bb74d8c48b5b5737a1a7b8c45e37cd7aa619c1edc75a280be7b6bd59b195
   keys:
@@ -109,9 +110,9 @@ passwords:
     algorithm: argon2id
   minimum_complexity: 3
 matrix:
-  homeserver: ms1.aosn.de
+  homeserver: example.com
   secret: 'n2vHYeTYrGMPY0d96Nh0ALEuu5nqBZ4y'
-  endpoint: https://ms1.aosn.de/
+  endpoint: https://example.com/
 
 # please keep config above this point as close as possible to the original generated config
 # so that upstream generated config changes can be detected
