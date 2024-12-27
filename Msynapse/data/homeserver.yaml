@@ -13,7 +13,7 @@
 
 
 
-server_name: "ms1.aosn.de"
+server_name: "example.com"
 pid_file: /data/homeserver.pid
 listeners:
   - port: 8008
@@ -78,15 +78,15 @@ email:
   smtp_host: smtp.gmail.com
   smtp_port: 587
   enable_tls: true
-  smtp_user: matrix.aosn@gmail.com  # 添加这一行
-  smtp_pass: cqkrdkagdwavswho     # 添加这一行
-  notif_from: "Your %(app)s homeserver <matrix.aosn@gmail.com>"
+  smtp_user: matrix@example.com  # 添加这一行
+  smtp_pass: your_passwork     # 添加这一行
+  notif_from: "Your %(app)s homeserver <matrix@example.com>"
   app_name: Matrix
   enable_notifs: true
   notif_for_new_users: false
-  client_base_url: https://ele.aosn.de
+  client_base_url: https://example.com
   validation_token_lifetime: 15m
-  invite_client_location: https://ele.aosn.de
+  invite_client_location: https://example.com
   subjects:
     message_from_person_in_room: "[%(app)s] You have a message on %(app)s from %(person)s in the %(room)s room..."
     message_from_person: "[%(app)s] You have a message on %(app)s from %(person)s..."
@@ -103,12 +103,12 @@ email:
 #experimental_features:
 #  msc3861: # OIDC
 #    enabled: true
-#    issuer: https://auth.aosn.de
+#    issuer: https://auth.example.com
 #    client_id: 0000000000000000000SYNAPSE
 #    client_auth_method: client_secret_basic
 #    client_secret: 'kMKhpWW5evSedXz1t8bSlw'
 #    admin_token: 'n2vHYeTYrGMPY0d96Nh0ALEuu5nqBZ4y'
-#    account_management_url: "https://auth.aosn.de/account"
+#    account_management_url: "https://auth.example.com/account"
     
 #  msc4108_enabled: true
 #  msc3266_enabled: true
