@@ -22,7 +22,7 @@ services:
       - POSTGRES_PASSWORD=your_password  
       - POSTGRES_INITDB_ARGS=--encoding=UTF8 --locale=C
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data  
+      - ./mas_db:/var/lib/postgresql/data  
     ports:
       - "5422:5432"  
     networks:
