@@ -32,7 +32,7 @@ element-web  :  ele.example.com
 element-call :  call.example.com
 
 
-lk-jwt       :  jwt。example.com
+lk-jwt       :  jwt.example.com
 
 
 livekit      :  livekit.example.com
