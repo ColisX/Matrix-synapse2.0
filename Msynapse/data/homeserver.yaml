@@ -58,6 +58,8 @@ enable_registration: true  #以允许用户注册
 enable_registration_without_verification: true
 suppress_key_server_warning: true
 
+public_baseurl: https://example.com/
+suppress_key_server_warning: true
 send_federation: false
 federation_sender_instances:
   - synapse-federation-sender-1
@@ -144,6 +146,12 @@ federation_domain_whitelist:
   - envs.net
   - ms.aosn.de
   - matrix.org
+
+#element-call  
+experimental_features:
+  msc3266_enabled: true
+  msc4222_enabled: true
+max_event_delay_duration: 24h
 
 
 turn_uris:
