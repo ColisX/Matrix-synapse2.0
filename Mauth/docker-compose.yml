@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     container_name: mas
     ports:
-      - 8083:8080
+      - 8013:8080
     volumes:
       - ./mas:/data:rw
     networks:
