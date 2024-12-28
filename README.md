@@ -19,11 +19,25 @@ docker exec -it synapse register_new_matrix_user -c /data/homeserver.yaml http:/
 需要dns解析的域名
 
 synapse      :  example.com
+
+
+
 auth         :  auth.example.com
+
+
+
 element-web  :  ele.example.com
+
+
 element-call :  call.example.com
+
+
 lk-jwt       :  jwt。example.com
+
+
 livekit      :  livekit.example.com
+
+
 admin        :  admin.example.com
 
 
