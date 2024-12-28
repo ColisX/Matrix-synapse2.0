@@ -1,0 +1,49 @@
+services:
+  element-call:
+    image: ghcr.io/element-hq/element-call:latest-ci
+    container_name: element-call
+    hostname: element-call
+    ports:
+      - 8093:8080
+    volumes:
+      - ./backend/config.json:/app/config.json
+    restart: unless-stopped
+    networks:
+      - matrix_net
+
+  lk-jwt:
+    image: ghcr.io/element-hq/lk-jwt-service:latest-ci
+    hostname: auth-server
+    container_name: lk-jwt
+    environment:
+      - LK_JWT_PORT=8080
+      - LIVEKIT_URL=wss://livekit.aosn.de:443
+      - LIVEKIT_KEY=devkey
+      - LIVEKIT_SECRET=SOMETHING_SECRET_YOU_SHOULD_GENERATE
+      - LIVEKIT_INSECURE_SKIP_VERIFY_TLS=YES_I_KNOW_WHAT_I_AM_DOING
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+      - 8009:8080
+    networks:
+      - matrix_net
+
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --dev --config /etc/livekit.yaml
+    restart: unless-stopped
+    container_name: livekit
+    ports:
+      - 7880:7880/tcp
+      - 7881:7881/tcp
+      - 7882:7882/tcp
+      - 50800-50900:50800-50900/udp
+    volumes:
+      - ./backend/livekit.yaml:/etc/livekit.yaml:Z
+    networks:
+      - matrix_net
+
+networks:
+  matrix_net:
+    external: true
