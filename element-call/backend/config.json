@@ -1,9 +1,14 @@
 {
   "default_server_config":{
-    "m.homeserver":{
+    "m.homeserver":[ {
       "base_url":"https://example.com",
       "server_name":"example.com"
-    }
+    },
+      {
+        "base_url": "https://anther.example.com",
+        "server_name": "anther.example.com"
+      }
+     ]
   },
   "livekit": {
     "livekit_service_url":"https://jwt.example.com"
