@@ -16,3 +16,4 @@ services:
       - ./site:/etc/site
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+      - ./well-known:/var/www
