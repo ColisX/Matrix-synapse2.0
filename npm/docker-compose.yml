@@ -16,4 +16,4 @@ services:
       - ./site:/etc/site
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
-      - ./well-known:/var/www
+      - ./.well-known:/var/www       #注意将well-known目录改为.well-known
