@@ -1,0 +1,200 @@
+# Configuration file for Synapse.
+#
+# This is a YAML file: see [1] for a quick introduction. Note in particular
+# that *indentation is important*: all the elements of a list or dictionary
+# should have the same indentation.
+#
+# [1] https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+#
+# For more information on how to configure Synapse, including a complete accounting of
+# each option, go to docs/usage/configuration/config_documentation.md or
+# https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html
+server_name: "aosn.de"
+pid_file: /data/homeserver.pid
+public_baseurl: https://aosn.de/
+suppress_key_server_warning: true
+
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    resources:
+      - names: [client, federation]
+        compress: false
+  - port: 9093
+    tls: false
+    type: http
+    resources:
+      - names: [replication]
+
+start_pushers: false
+send_federation: false
+workers:
+  federation_sender_instances:
+    - synapse-federation-sender-1
+media:
+  worker: media_repo
+instance_map:
+  main:
+    host: 'synapse'
+    port: 9093
+    event_thread_pool_size: 16
+  synapse-generic-worker-1:
+    host: 'synapse-generic-worker-1'
+    port: 8081
+    event_thread_pool_size: 16
+  synapse-federation-sender-1:
+    host: 'synapse-federation-sender-1'
+    port: 8086
+    event_thread_pool_size: 16
+  push_worker:
+    host: 'push_worker'
+    port: 9004
+#  media_repo:
+#    host: 'media_repo'
+#    port: 9005
+#  synchrotron_worker:
+#    host: 'media_repo'
+#    port: 8082
+redis:
+  enabled: true
+  host: redis
+  port: 6379
+  dbid: 0
+
+
+
+database:
+  name: psycopg2
+  txn_limit: 10000
+  args:
+    user: synapse_user
+    password: your_password
+    dbname: synapse
+    host: db
+    port: 5432
+    cp_min: 5
+    cp_max: 3000
+
+
+log_config: "/data/synapse.log.config"
+media_store_path: /data/media_store
+registration_shared_secret: "hCM^WP+tiLynuW-ImCi^KM_Xn_5g@yRIOJgXLWOZO#CGcd:hao"
+report_stats: false
+macaroon_secret_key: "&nsg-@hVVEAH_tBRwo3KaN6y*OtdrP4w;4GtCc#fhu_Vo;yUKQ"
+form_secret: "G&@cPi8gu_9evTkwc~vo*Pgl,sd7gALXqX&#O2x0BMuwN10tei"
+signing_key_path: "/data/synapse.signing.key"
+trusted_key_servers:
+  - server_name: "matrix.org"
+
+#消息缓存策略
+
+caches:
+  event_cache_size: 30000k
+  global_factor: 3
+  stateGroup*: 3
+  expire_caches: true
+  cache_entry_ttl: 1080m
+  sync_response_cache_duration: 2m
+  per_cache_factors:
+    get_current_hosts_in_room: 3
+    get_local_users_in_room: 3
+    get_partial_current_state_ids: 0.5
+    _get_presence_for_user: 3
+    get_rooms_for_user: 3
+    _get_server_keys_json: 3
+    stateGroupCache: 0.1
+    stateGroupMembersCache: 0.2
+  cache_autotuning:
+    max_cache_memory_usage: 896M
+    target_cache_memory_usage: 512M
+    min_cache_ttl: 30s
+
+state:
+  max_event_delay_duration: 24h
+room_version:
+  partial_state:
+    enabled: true
+    max_room_size: 50000
+
+
+media_repository:
+  enable_media_repo: true
+  max_event_delay_duration: 24h
+  max_pending_media_uploads: 100
+  max_spider_size: "10M"
+  max_upload_size: 1024M
+  max_image_size: 50M
+  max_thumbnail_generators: 20
+message_retention:
+  default: "delete"
+
+background_updates:
+    sleep_enabled: false
+
+
+#////////////////////////历史消息清除计时
+#retention:
+#  enabled: true
+#  default_policy:
+#    min_lifetime: 1h
+#    max_lifetime: 30d
+#  allowed_lifetime_min: 1h  #优先级更高
+#  allowed_lifetime_max: 30d
+#  purge_jobs:
+#    - longest_max_lifetime: 30d
+#      interval: 12h
+#    - shortest_max_lifetime: 30d
+#      interval: 12h
+
+
+#/////////////联邦白名单
+#federation_domain_whitelist:
+#  - matrix.envs.net
+#  - envs.net
+#  - ms1.aosn.de
+#  - matrix.org
+
+federation:
+  federation_enabled: true  # 启用联邦通信
+  federation_reader_concurrent:
+    max_inbound_ratelimit: 200  # 最大入站请求限速
+    max_outbound_ratelimit: 200  # 最大出站请求限速
+  federation_client_minimum_cache_size: 1000  # 联邦客户端的最小缓存大小
+  federation_client_cache_size: 100000  # 联邦客户端的缓存大小
+
+  federation_rc_window_size: 39000  # 联邦请求队列窗口大小
+  federation_rc_sleep_limit: 50  # 联邦请求队列最大睡眠数
+  federation_rc_sleep_delay: 200  # 联邦请求队列睡眠延迟（毫秒）
+  federation_rc_reject_limit: 500  # 联邦请求队列拒绝限制
+  federation_rc_concurrent: 100  # 联邦请求队列的并发数
+  federation_rc_timeout: 60000  # 联邦请求队列超时时间（毫秒）#federation_domain_whitelist:
+
+experimental_features:
+  experimental_federation:
+    enabled: true
+  experimental_encryption:
+    enabled: true
+  MSC2655_enabled: true
+  msc3266_enabled: true
+  msc4222_enabled: true
+  msc3030_enabled: true
+
+  msc4108_enabled: true
+  msc3861: # OIDC
+    enabled: true
+    issuer: https://auth.aosn.de
+    client_id: 0000000000000000000SYNAPSE
+    client_auth_method: client_secret_basic
+    client_secret: 'kMKhpWW5evSedXz1t8bSlw'
+    admin_token: 'n2vHYeTYrGMPY0d96Nh0ALEuu5nqBZ4y'
+    account_management_url: "https://auth.aosn.de/account"
+
+
+#enable_registration: true  #以允许用户注册
+enable_registration_without_verification: true
+suppress_key_server_warning: true
+
+# vim:ft=yaml
